@@ -11,11 +11,11 @@ public class DwellingFloor {
     public DwellingFloor(Flat[] newFlats) {
         this.flats = newFlats;
     }
-
+    /**Гетер количества квартир*/
     public int getNumberFlats() {
         return this.flats.length;
     }
-
+    /**Гетер общей площади квартир*/
     public double getSumAreaFlats(){
         int numberFlats = this.flats.length;
         double sumArea = 0;
@@ -24,7 +24,7 @@ public class DwellingFloor {
         }
         return sumArea;
     }
-
+    /**Гетер общего количества комнат*/
     public int getSumRooms() {
         int numberFlats = this.flats.length;
         int sumRooms = 0;
@@ -33,49 +33,55 @@ public class DwellingFloor {
         }
         return sumRooms;
     }
-
+    /**Гетер массива квартир*/
     public Flat[] getFlats() {
         return this.flats;
     }
-
-    public Flat getFlatByNumber(int numberFlat) {
+    /**Гетер квартиры по его номеру*/
+    public Flat getFlatOnFloor(int numberFlat) {
         return this.flats[numberFlat];
     }
-
-    public void setFlatByNumber(int numberFlat, Flat newFlat) {
+    /**Сетер квартиры по его номеру*/
+    public void setFlatOnFloor(int numberFlat, Flat newFlat) {
         this.flats[numberFlat] = newFlat;
     }
-
-    public void addFlatByNumber(int numberFlat, Flat newFlat) {
+    /**Добавление квартиры на этаж по номеру и объекту квартиры*/
+    public void addFlatOnFloor(int numberFlat, Flat newFlat) throws IndexOutOfBoundsException{
+        if (numberFlat < 0 || numberFlat > this.getNumberFlats() + 1) {
+            throw new IndexOutOfBoundsException("Incorrect numberFlat!");
+        }
         int numberFlats = this.flats.length + 1;
         Flat[] tmp = new Flat[numberFlats];
-        for (int i = 0; i < numberFlats; ++i) {
-            if (i != numberFlat) {
-                tmp[i] = this.flats[i];
-            }
-            else {
-                tmp[numberFlat] = newFlat;
-            }
+        int i = 0;
+        for (; i < numberFlat; ++i) {
+            tmp[i] = this.flats[i];
+        }
+        tmp[numberFlat] = newFlat;
+        for (int k = i++; k < numberFlats; ++i, ++k) {
+            tmp[k] = this.flats[i];
         }
         this.flats = tmp;
     }
-
-    public void deleteFlatByNumber(int numberFlat) {
-        int numberFlats = this.flats.length;
-        Flat[] tmp = new Flat[numberFlats - 1];
-        for (int i = 0; i < numberFlats; ++i) {
-            if (i != numberFlat) {
-                tmp[i] = this.flats[i];
-            }
-            else {
-                --i;
-            }
+    /**Удаление квартиры с этажа по его номеру
+     * с востановление последовательности нумерации*/
+    public void deleteFlatOnFloor(int numberFlat) throws IndexOutOfBoundsException {
+        if (numberFlat < 0 || numberFlat > this.getNumberFlats()) {
+            throw new IndexOutOfBoundsException("Incorrect numberFlat!");
+        }
+        int numberFlats = this.flats.length - 1;
+        Flat[] tmp = new Flat[numberFlats];
+        int i = 0;
+        for (; i < numberFlat; ++i) {
+            tmp[i] = this.flats[i];
+        }
+        for (int k = i--; k < numberFlats; ++i, ++k) {
+            tmp[k] = this.flats[i];
         }
         this.flats = tmp;
     }
-
+    /**Гетер самой большой квартиры на этаже*/
     public Flat getBestSpace() {
-        double maxArea = 0, numberFlats = this.flats.length;
+        double maxArea = 0;
         Flat bestSpace = new Flat();
         for (Flat flat : flats) {
             if (maxArea < flat.getArea()) {
