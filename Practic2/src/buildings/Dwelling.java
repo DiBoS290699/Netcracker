@@ -1,3 +1,5 @@
+package buildings;
+
 public class Dwelling {
     private DwellingFloor[] dwellingFloors;
 
@@ -13,8 +15,12 @@ public class Dwelling {
         }
     }
     /**Конструктор по массиву этажей дома*/
-    public Dwelling(DwellingFloor[] dwellingFloors1) {
-        this.dwellingFloors = dwellingFloors1;
+    public Dwelling(DwellingFloor[] df) {
+        int length = df.length;
+        this.dwellingFloors = new DwellingFloor[length];
+        for (int i = 0; i < length; ++i) {
+            this.dwellingFloors[i] = new DwellingFloor(df[i].getFlats());
+        }
     }
     /**Гетер общего количества этажей дома*/
     public int getSumFloors() { return this.dwellingFloors.length; }
@@ -38,7 +44,7 @@ public class Dwelling {
     public int getSumRoomsInDwelling() {
         int sum = 0;
         for (DwellingFloor floor : dwellingFloors) {
-            sum += floor.getSumRooms();
+            sum += floor.getSumRoomsFlats();
         }
         return sum;
     }
@@ -57,7 +63,7 @@ public class Dwelling {
         if (numberFloor < 0 || numberFloor > this.dwellingFloors.length) {
             throw new IndexOutOfBoundsException("Incorrect numberFloor!");
         }
-        this.dwellingFloors[numberFloor] = newFloor;
+        this.dwellingFloors[numberFloor] = new DwellingFloor(newFloor.getFlats());
     }
     /**Поиск этажа, на котором находится квартира по нужному номеру*/
     private int[] searchFloorAndFlat(int numberFlat) throws IndexOutOfBoundsException {
@@ -113,5 +119,34 @@ public class Dwelling {
         return bestSpace;
     }
     /**Гетер отсортированного по убыванию площадей массива квартир*/
-
+    public Flat[] getSortFlatDown() {
+        Flat[] allFlats = new Flat[this.getSumFlats()];
+        int sumFloors = this.getSumFloors();
+        for (int i = 0; i < sumFloors; ++i) {
+            int sumFlatsOnFloor = this.dwellingFloors[i].getNumberFlats();
+            for (int k = 0; k < sumFlatsOnFloor; ++k) {
+                Flat flat = this.dwellingFloors[i].getFlatOnFloor(k);
+                int p = k - 1;
+                for (; p > 0; --p) {
+                    if (flat.getArea() > this.dwellingFloors[i].getFlatOnFloor(p).getArea()) {
+                        allFlats[p+1] = this.dwellingFloors[i].getFlatOnFloor(p);
+                    }
+                    else break;
+                }
+                allFlats[p+1] = flat;
+            }
+        }
+        return allFlats;
+    }
+    /**Отображение содержимого поля класса*/
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Dwelling:\n");
+        int length = this.dwellingFloors.length;
+        for (int i = length - 1; i >= 0; --i) {
+            str.append("Floor№" + i + ": " + dwellingFloors[i].toString());
+        }
+        return str.toString();
+    }
 }

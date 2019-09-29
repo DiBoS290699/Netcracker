@@ -1,3 +1,5 @@
+package buildings;
+
 public class DwellingFloor {
     private Flat flats[];   //Массив квартир на этаже
 
@@ -6,10 +8,17 @@ public class DwellingFloor {
         if (numberFlats <= 0)   //ызов исключения при некорректном количестве квартир
             throw new IllegalArgumentException("Incorrect number of flats!");
         this.flats = new Flat[numberFlats];
+        for (int i = 0; i < numberFlats; ++i) {
+            this.flats[i] = new Flat();
+        }
     }
     /**Конструктор инициализации через массив квартир*/
     public DwellingFloor(Flat[] newFlats) {
-        this.flats = newFlats;
+        int length = newFlats.length;
+        this.flats = new Flat[length];
+        for (int i = 0; i < length; ++i) {
+            this.flats[i] = new Flat(newFlats[i].getArea(), newFlats[i].getRooms());
+        }
     }
     /**Гетер количества квартир*/
     public int getNumberFlats() {
@@ -25,7 +34,7 @@ public class DwellingFloor {
         return sumArea;
     }
     /**Гетер общего количества комнат*/
-    public int getSumRooms() {
+    public int getSumRoomsFlats() {
         int numberFlats = this.flats.length;
         int sumRooms = 0;
         for (int i = 0; i < numberFlats; ++i) {
@@ -57,7 +66,7 @@ public class DwellingFloor {
             tmp[i] = this.flats[i];
         }
         tmp[numberFlat] = newFlat;
-        for (int k = i++; k < numberFlats; ++i, ++k) {
+        for (int k = i + 1; k < numberFlats; ++i, ++k) {
             tmp[k] = this.flats[i];
         }
         this.flats = tmp;
@@ -74,7 +83,7 @@ public class DwellingFloor {
         for (; i < numberFlat; ++i) {
             tmp[i] = this.flats[i];
         }
-        for (int k = i--; k < numberFlats; ++i, ++k) {
+        for (int k = i - 1; k < numberFlats; ++i, ++k) {
             tmp[k] = this.flats[i];
         }
         this.flats = tmp;
@@ -90,5 +99,16 @@ public class DwellingFloor {
             }
         }
         return bestSpace;
+    }
+    /**Отображение содержимого поля класса*/
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        int length = this.flats.length;
+        for (int i = 0; i < length; ++i) {
+            str.append("№").append(i).append(flats[i].toString());
+        }
+        str.append('\n');
+        return str.toString();
     }
 }
