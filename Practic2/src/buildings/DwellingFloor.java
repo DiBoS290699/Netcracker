@@ -59,14 +59,14 @@ public class DwellingFloor {
         if (numberFlat < 0 || numberFlat > this.getNumberFlats() + 1) {
             throw new IndexOutOfBoundsException("Incorrect numberFlat!");
         }
-        int numberFlats = this.flats.length + 1;
-        Flat[] tmp = new Flat[numberFlats];
+        int newSumFlats = this.flats.length + 1;
+        Flat[] tmp = new Flat[newSumFlats];
         int i = 0;
         for (; i < numberFlat; ++i) {
             tmp[i] = this.flats[i];
         }
         tmp[numberFlat] = newFlat;
-        for (int k = i + 1; k < numberFlats; ++i, ++k) {
+        for (int k = i + 1; k < newSumFlats; ++i, ++k) {
             tmp[k] = this.flats[i];
         }
         this.flats = tmp;
@@ -83,8 +83,8 @@ public class DwellingFloor {
         for (; i < numberFlat; ++i) {
             tmp[i] = this.flats[i];
         }
-        for (int k = i - 1; k < numberFlats; ++i, ++k) {
-            tmp[k] = this.flats[i];
+        for (int k = i + 1; i < numberFlats; ++i, ++k) {
+            tmp[i] = this.flats[k];
         }
         this.flats = tmp;
     }

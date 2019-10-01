@@ -37,5 +37,15 @@ public class Test {
         System.out.print(d1);
         d1.addFlatInDwelling(5, new Flat(45.2, 3));
         System.out.print(d1);
+        d1.deleteFlatInDwelling(3);
+        System.out.print(d1);
+        System.out.println("Flat №4: " + d1.getFlatInDwelling(4));
+        d1.setFlatInDwelling(4, new Flat(59.0, 3));
+        System.out.print(d1);
+        Flat[] sortFlats = d1.getSortFlatDown();
+        System.out.print("Sort dwelling: ");
+        for(Flat flat : sortFlats) {
+            System.out.print(flat + " ");
+        }
     }
 }
