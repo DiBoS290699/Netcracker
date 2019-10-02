@@ -130,15 +130,16 @@ public class Dwelling {
     public Flat[] getSortFlatDown() {
         Flat[] allFlats = new Flat[this.getSumFlats()];
         int sumFloors = this.getSumFloors();
-        int num = 0;
+        int num, k = 0;
         for (int i = 0; i < sumFloors; ++i) {
             int sumFlatsOnFloor = this.dwellingFloors[i].getNumberFlats();
-            for (int k = 0; k < sumFlatsOnFloor; ++k, ++num) {
+            num = k;
+            for (k = 0; k < sumFlatsOnFloor; ++k) {
                 Flat flat = this.dwellingFloors[i].getFlatOnFloor(k);
-                int p = k;
+                int p = num + k;
                 for (; p > 0; --p) {
-                    if (flat.getArea() > this.dwellingFloors[i].getFlatOnFloor(p-1).getArea()) {
-                        allFlats[p] = this.dwellingFloors[i].getFlatOnFloor(p-1);
+                    if (flat.getArea() > allFlats[p-1].getArea()) {
+                        allFlats[p] = allFlats[p-1];
                     }
                     else break;
                 }
