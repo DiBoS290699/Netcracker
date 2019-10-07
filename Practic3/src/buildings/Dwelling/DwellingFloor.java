@@ -1,11 +1,13 @@
-﻿package buildings;
+package buildings.Dwelling;
+
+import buildings.Exceptions.SpaceIndexOutOfBoundsException;
 
 public class DwellingFloor {
     private Flat flats[];   //Массив квартир на этаже
 
     /**Конструктор инициализации через количество квартир*/
     public DwellingFloor(int numberFlats) throws IllegalArgumentException{
-        if (numberFlats <= 0)   //ызов исключения при некорректном количестве квартир
+        if (numberFlats <= 0)   //вызов исключения при некорректном количестве квартир
             throw new IllegalArgumentException("Incorrect number of flats!");
         this.flats = new Flat[numberFlats];
         for (int i = 0; i < numberFlats; ++i) {
@@ -47,17 +49,23 @@ public class DwellingFloor {
         return this.flats;
     }
     /**Гетер квартиры по его номеру*/
-    public Flat getFlatOnFloor(int numberFlat) {
+    public Flat getFlatOnFloor(int numberFlat) throws SpaceIndexOutOfBoundsException {
+        if (numberFlat < 0 || this.flats.length < numberFlat) {
+            throw new SpaceIndexOutOfBoundsException("Incorrect numberFlat: " + numberFlat);
+        }
         return this.flats[numberFlat];
     }
     /**Сетер квартиры по его номеру*/
-    public void setFlatOnFloor(int numberFlat, Flat newFlat) {
+    public void setFlatOnFloor(int numberFlat, Flat newFlat) throws SpaceIndexOutOfBoundsException {
+        if (numberFlat < 0 || this.flats.length < numberFlat) {
+            throw new SpaceIndexOutOfBoundsException("Incorrect numberFlat: " + numberFlat);
+        }
         this.flats[numberFlat] = newFlat;
     }
     /**Добавление квартиры на этаж по номеру и объекту квартиры*/
-    public void addFlatOnFloor(int numberFlat, Flat newFlat) throws IndexOutOfBoundsException{
-        if (numberFlat < 0 || numberFlat > this.getNumberFlats() + 1) {
-            throw new IndexOutOfBoundsException("Incorrect numberFlat!");
+    public void addFlatOnFloor(int numberFlat, Flat newFlat) throws SpaceIndexOutOfBoundsException {
+        if (numberFlat < 0 || numberFlat > this.getNumberFlats()) {
+            throw new SpaceIndexOutOfBoundsException("Incorrect numberFlat: " + numberFlat);
         }
         int newSumFlats = this.flats.length + 1;
         Flat[] tmp = new Flat[newSumFlats];
@@ -73,9 +81,9 @@ public class DwellingFloor {
     }
     /**Удаление квартиры с этажа по его номеру
      * с востановление последовательности нумерации*/
-    public void deleteFlatOnFloor(int numberFlat) throws IndexOutOfBoundsException {
-        if (numberFlat < 0 || numberFlat > this.getNumberFlats()) {
-            throw new IndexOutOfBoundsException("Incorrect numberFlat!");
+    public void deleteFlatOnFloor(int numberFlat) throws SpaceIndexOutOfBoundsException {
+        if (numberFlat < 0 || numberFlat >= this.getNumberFlats()) {
+            throw new SpaceIndexOutOfBoundsException("Incorrect numberFlat: " + numberFlat);
         }
         int numberFlats = this.flats.length - 1;
         Flat[] tmp = new Flat[numberFlats];
