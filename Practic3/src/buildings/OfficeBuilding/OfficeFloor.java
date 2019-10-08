@@ -27,7 +27,7 @@ public class OfficeFloor {
     /**Гетер общей площади офисов*/
     public double getSumAreaOffices() {
         double sumArea = 0;
-        FunctionNode temp = new FunctionNode(head);
+        FunctionNode temp = new FunctionNode(head.next);
         for (int i = 0; i < numberOffices; ++i) {
             temp = temp.next;
             sumArea += temp.of.getArea();
@@ -37,7 +37,7 @@ public class OfficeFloor {
     /**Гетер общего количества комнат*/
     public int getSumRoomsOffices() {
         int sumRooms = 0;
-        FunctionNode temp = new FunctionNode(head);
+        FunctionNode temp = new FunctionNode(head.next);
         for (int i = 0; i < numberOffices; ++i) {
             temp = temp.next;
             sumRooms += temp.of.getRooms();
@@ -47,7 +47,7 @@ public class OfficeFloor {
     /**Гетер массива офисов*/
     public Office[] getOffices() {
         Office[] ofMas = new Office[numberOffices];
-        FunctionNode temp = new FunctionNode(head);
+        FunctionNode temp = new FunctionNode(head.next);
         for (int i = 0; i < numberOffices; ++i) {
             temp = temp.next;
             ofMas[i] = temp.of;
@@ -74,7 +74,7 @@ public class OfficeFloor {
     public Office getBestSpace() {
         double maxArea = 0;
         Office bestSpace = new Office();
-        FunctionNode temp = new FunctionNode(head);
+        FunctionNode temp = new FunctionNode(head.next);
         for (int i = 0; i < numberOffices; ++i) {
             temp = temp.next;
             if (maxArea < temp.of.getArea()) {
@@ -89,8 +89,8 @@ public class OfficeFloor {
         if (index < 0 || index >= numberOffices) {
             throw new SpaceIndexOutOfBoundsException("Incorrect index: " + index);
         }
-        FunctionNode temp = this.head.next;
-        for (int i = 1; i <= index; ++i) {
+        FunctionNode temp = new FunctionNode(head.next);
+        for (int i = 0; i <= index; ++i) {
             temp = temp.next;
         }
         return temp;
@@ -172,5 +172,17 @@ public class OfficeFloor {
             this.of = of;
             this.next = next;
         }
+    }
+    /**Отображение содержимого поля класса*/
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        FunctionNode office = new FunctionNode(head.next);
+        for (int i = 0; i < this.numberOffices; ++i) {
+            office = office.next;
+            str.append("№").append(i).append(office.of.toString());
+        }
+        str.append('\n');
+        return str.toString();
     }
 }
