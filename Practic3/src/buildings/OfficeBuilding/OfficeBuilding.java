@@ -45,8 +45,8 @@ public class OfficeBuilding {
         return sum;
     }
 
-    public double getSumRoomsOfficesInBuilding() {
-        double sum = 0;
+    public int getSumRoomsOfficesInBuilding() {
+        int sum = 0;
         FunctionNode temp = new FunctionNode(head.next, head.prev);
         for (int i = 0; i < numberFloors; ++i) {
             temp = temp.next;
@@ -79,7 +79,7 @@ public class OfficeBuilding {
         if (numberOffice < 0 || numberOffice >= this.getSumOffices()) {
             throw new SpaceIndexOutOfBoundsException("Incorrect numberFlat: " + numberOffice);
         }
-        FunctionNode floor = new FunctionNode(head.next.next, head.prev);
+        FunctionNode floor = new FunctionNode(head.prev, head.next.next);
         int i = 0, numberOffices = floor.off.getNumberOffices();
         for (; numberOffice >= numberOffices; ++i) {
             numberOffice -= numberOffices;
@@ -111,7 +111,7 @@ public class OfficeBuilding {
             tmp.addOfficeOnFloor(tmp.getNumberOffices(), newOffice);
         }
         else {
-            FunctionNode floor = new FunctionNode(head.next.next, head.prev);
+            FunctionNode floor = new FunctionNode(head.prev, head.next.next );
             int numberOffices = floor.off.getNumberOffices();
             while (numberOffice >= numberOffices) {
                 numberOffice -= numberOffices;
@@ -142,7 +142,7 @@ public class OfficeBuilding {
         return bestSpace;
     }
     /**Гетер отсортированного по убыванию площадей массива офисов*/
-    public Office[] getSortFlatDown() {
+    public Office[] getSortOfficeDown() {
         Office[] allOffices = new Office[this.getSumOffices()];
         int sumFloors = this.getSumFloors();
         int num, k = 0;
@@ -270,7 +270,7 @@ public class OfficeBuilding {
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append("Building:\n");
-        FunctionNode floor = new FunctionNode(head.next, head.prev);
+        FunctionNode floor = new FunctionNode(head.prev, head.next);
         for (int i = numberFloors - 1; i >= 0; --i) {
             floor = floor.prev;
             str.append("Floor№" + i + ": " + floor.off.toString());

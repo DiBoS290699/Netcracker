@@ -118,11 +118,12 @@ public class OfficeFloor {
 
         else {
             FunctionNode temp = new FunctionNode(head.next);
-            for (int i = 1; i < numberOffices; ++i) {
+            for (int i = 0; i < numberOffices; ++i) {
                 temp = temp.next;
             }
             temp.next = new FunctionNode(head.next);
             ++numberOffices;
+            temp = temp.next;
             return temp;
         }
     }

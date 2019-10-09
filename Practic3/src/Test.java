@@ -35,12 +35,12 @@ public class Test {
         System.out.println("getSumRoomsInDwelling d1: " + d1.getSumRoomsOfficesInBuilding());
         d1.setOfficeFloor(1, dw2);
         System.out.print(d1);
-        d1.addOfficeInDwelling(5, new Office(45.2, 3));
+        d1.addOfficeInBuilding(5, new Office(45.2, 3));
         System.out.print(d1);
-        d1.deleteOfficeInDwelling(3);
+        d1.deleteOfficeInBuilding(3);
         System.out.print(d1);
-        System.out.println("Office №4: " + d1.getOfficeInDwelling(4));
-        d1.setOfficeInDwelling(4, new Office(59.0, 3));
+        System.out.println("Office №4: " + d1.getOfficeInBuilding(4));
+        d1.setOfficeInBuilding(4, new Office(59.0, 3));
         System.out.print(d1);
         Office[] sortOffices = d1.getSortOfficeDown();
         System.out.print("Sort dwelling: ");
