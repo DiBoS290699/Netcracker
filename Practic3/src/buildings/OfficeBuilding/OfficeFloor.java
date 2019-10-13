@@ -1,8 +1,10 @@
 package buildings.OfficeBuilding;
 
 import buildings.Exceptions.SpaceIndexOutOfBoundsException;
+import buildings.Floor;
+import buildings.Space;
 
-public class OfficeFloor {
+public class OfficeFloor implements Floor {
     private FunctionNode head = new FunctionNode();     //Всегда пустая голова, ссылающаяся на нулевой узел
     private int numberOffices = 0;                      //Количество офисов на этаже
 
@@ -23,9 +25,9 @@ public class OfficeFloor {
         }
     }
     /**Гетер количества офисов*/
-    public int getNumberOffices() { return this.numberOffices; }
+    public int getNumberSpaces() { return this.numberOffices; }
     /**Гетер общей площади офисов*/
-    public double getSumAreaOffices() {
+    public double getSumArea() {
         double sumArea = 0;
         FunctionNode temp = new FunctionNode(head.next);
         for (int i = 0; i < numberOffices; ++i) {
@@ -35,7 +37,7 @@ public class OfficeFloor {
         return sumArea;
     }
     /**Гетер общего количества комнат*/
-    public int getSumRoomsOffices() {
+    public int getSumRooms() {
         int sumRooms = 0;
         FunctionNode temp = new FunctionNode(head.next);
         for (int i = 0; i < numberOffices; ++i) {
@@ -45,7 +47,7 @@ public class OfficeFloor {
         return sumRooms;
     }
     /**Гетер массива офисов*/
-    public Office[] getOffices() {
+    public Office[] getSpaces() {
         Office[] ofMas = new Office[numberOffices];
         FunctionNode temp = new FunctionNode(head.next);
         for (int i = 0; i < numberOffices; ++i) {
@@ -55,19 +57,19 @@ public class OfficeFloor {
         return ofMas;
     }
     /**Гетер офиса по его номеру*/
-    public Office getOfficeOnFloor(int index) throws SpaceIndexOutOfBoundsException{
+    public Office getSpaceOnFloor(int index) throws SpaceIndexOutOfBoundsException{
         return this.getNodeByIndex(index).of;
     }
     /**Сетер офиса по его номеру*/
-    public void setOfficeOnFloor(int index, Office newOf) throws SpaceIndexOutOfBoundsException{
+    public void setSpaceOnFloor(int index, Space newOf) throws SpaceIndexOutOfBoundsException {
         this.getNodeByIndex(index).of = new Office(newOf);
     }
     /**Добавление офиса на этаж по номеру и объекту офиса*/
-    public void addOfficeOnFloor(int index, Office newOf) throws SpaceIndexOutOfBoundsException{
+    public void addSpaceOnFloor(int index, Office newOf) throws SpaceIndexOutOfBoundsException{
         this.addNodeByIndex(index).of = new Office(newOf);
     }
     /**Удаление офиса с этажа по его номеру*/
-    public void deleteOfficeOnFloor(int index) throws SpaceIndexOutOfBoundsException{
+    public void deleteSpaceOnFloor(int index) throws SpaceIndexOutOfBoundsException{
         this.deleteNodeByIndex(index);
     }
     /**Гетер самой большого офиса на этаже*/
@@ -142,7 +144,7 @@ public class OfficeFloor {
     private FunctionNode deleteNodeByIndex(int index) throws SpaceIndexOutOfBoundsException {
         if (index == 0) {
             FunctionNode lastNode = new FunctionNode(head.next);
-            for (int i = 1; i < numberOffices; ++i) {
+            for (int i = 0; i < numberOffices; ++i) {
                 lastNode = lastNode.next;
             }
             FunctionNode temp = head.next;

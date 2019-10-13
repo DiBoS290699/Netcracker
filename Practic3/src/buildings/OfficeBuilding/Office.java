@@ -1,6 +1,8 @@
 package buildings.OfficeBuilding;
 
-public class Office {
+import buildings.Space;
+
+public class Office implements Space {
     public static final double DEFAULT_AREA = 250;
     public static final int DEFAULT_ROOMS = 1;
     private double area;       //Размер комнаты/Площадь (в кв.м)

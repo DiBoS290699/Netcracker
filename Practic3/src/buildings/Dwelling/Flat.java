@@ -1,6 +1,8 @@
 package buildings.Dwelling;
 
-public class Flat {
+import buildings.Space;
+
+public class Flat implements Space {
     public static final double DEFAULT_AREA = 50;
     public static final int DEFAULT_ROOMS = 2;
     private double area;       //Размер комнаты/Площадь (в кв.м)

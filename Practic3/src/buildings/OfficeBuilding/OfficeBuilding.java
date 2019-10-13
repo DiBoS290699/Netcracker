@@ -19,7 +19,7 @@ public class OfficeBuilding {
     public OfficeBuilding(OfficeFloor[] offMas) {
         int length = offMas.length;
         for (int i = 0; i < length; ++i) {
-            this.addNodeToTail().off = new OfficeFloor(offMas[i].getOffices());
+            this.addNodeToTail().off = new OfficeFloor(offMas[i].getSpaces());
         }
     }
     /**Гетер общего количества этажей дома*/
@@ -30,7 +30,7 @@ public class OfficeBuilding {
         FunctionNode temp = new FunctionNode(head.next, head.prev);
         for (int i = 0; i < numberFloors; ++i) {
             temp = temp.next;
-            sum += temp.off.getNumberOffices();
+            sum += temp.off.getNumberSpaces();
         }
         return sum;
     }
@@ -40,7 +40,7 @@ public class OfficeBuilding {
         FunctionNode temp = new FunctionNode(head.next, head.prev);
         for (int i = 0; i < numberFloors; ++i) {
             temp = temp.next;
-            sum += temp.off.getSumAreaOffices();
+            sum += temp.off.getSumArea();
         }
         return sum;
     }
@@ -50,7 +50,7 @@ public class OfficeBuilding {
         FunctionNode temp = new FunctionNode(head.next, head.prev);
         for (int i = 0; i < numberFloors; ++i) {
             temp = temp.next;
-            sum += temp.off.getSumRoomsOffices();
+            sum += temp.off.getSumRooms();
         }
         return sum;
     }
@@ -72,31 +72,32 @@ public class OfficeBuilding {
     }
 
     public void setOfficeFloor(int index, OfficeFloor newOff) {
-        this.getNodeByIndex(index).off = new OfficeFloor(newOff.getOffices());
+        this.getNodeByIndex(index).off = new OfficeFloor(newOff.getSpaces());
     }
     /**Поиск этажа, на котором находится офис по нужному номеру*/
     private int[] searchFloorAndOffice(int numberOffice) throws SpaceIndexOutOfBoundsException {
         if (numberOffice < 0 || numberOffice >= this.getSumOffices()) {
             throw new SpaceIndexOutOfBoundsException("Incorrect numberFlat: " + numberOffice);
         }
-        FunctionNode floor = new FunctionNode(head.prev, head.next.next);
-        int i = 0, numberOffices = floor.off.getNumberOffices();
+        FunctionNode floor = new FunctionNode(head.prev, head.next);
+        floor = floor.next;
+        int i = 0, numberOffices = floor.off.getNumberSpaces();
         for (; numberOffice >= numberOffices; ++i) {
             numberOffice -= numberOffices;
             floor = floor.next;
-            numberOffices = floor.off.getNumberOffices();
+            numberOffices = floor.off.getNumberSpaces();
         }
         return new int[] {i, numberOffice};
     }
     /**Гетер объекта офиса по его номеру в доме*/
     public Office getOfficeInBuilding(int numberOffice) throws SpaceIndexOutOfBoundsException {
         int[] floorAndOffice = this.searchFloorAndOffice(numberOffice);
-        return this.getOfficeFloor(floorAndOffice[0]).getOfficeOnFloor(floorAndOffice[1]);
+        return this.getOfficeFloor(floorAndOffice[0]).getSpaceOnFloor(floorAndOffice[1]);
     }
     /**Сетер картиры по его номеру и ссылку на новую квартиру*/
     public void setOfficeInBuilding(int numberFlat, Office newOffice) throws SpaceIndexOutOfBoundsException {
         int[] floorAndOffice = this.searchFloorAndOffice(numberFlat);
-        this.getOfficeFloor(floorAndOffice[0]).setOfficeOnFloor(floorAndOffice[1], newOffice);
+        this.getOfficeFloor(floorAndOffice[0]).setSpaceOnFloor(floorAndOffice[1], newOffice);
     }
     /**Добавление квартиры по его будущему номеру
      *  и ссылке на новую квартиру
@@ -108,23 +109,23 @@ public class OfficeBuilding {
         }
         if (numberOffice == sumOffices) {
             OfficeFloor tmp = this.head.prev.off;
-            tmp.addOfficeOnFloor(tmp.getNumberOffices(), newOffice);
+            tmp.addSpaceOnFloor(tmp.getNumberSpaces(), newOffice);
         }
         else {
             FunctionNode floor = new FunctionNode(head.prev, head.next.next );
-            int numberOffices = floor.off.getNumberOffices();
+            int numberOffices = floor.off.getNumberSpaces();
             while (numberOffice >= numberOffices) {
                 numberOffice -= numberOffices;
                 floor = floor.next;
-                numberOffices = floor.off.getNumberOffices();
+                numberOffices = floor.off.getNumberSpaces();
             }
-            floor.off.addOfficeOnFloor(numberOffice, newOffice);
+            floor.off.addSpaceOnFloor(numberOffice, newOffice);
         }
     }
     /**Удаление офиса по его номеру*/
     public void deleteOfficeInBuilding(int numberOffice) throws SpaceIndexOutOfBoundsException {
         int[] floorAndOffice = this.searchFloorAndOffice(numberOffice);
-        this.getOfficeFloor(floorAndOffice[0]).deleteOfficeOnFloor(floorAndOffice[1]);
+        this.getOfficeFloor(floorAndOffice[0]).deleteSpaceOnFloor(floorAndOffice[1]);
     }
     /**Гетер самого большого офиса на этаже*/
     public Office getBestSpace() {
@@ -146,11 +147,12 @@ public class OfficeBuilding {
         Office[] allOffices = new Office[this.getSumOffices()];
         int sumFloors = this.getSumFloors();
         int num, k = 0;
-        FunctionNode floor = new FunctionNode(head.next.next, head.prev);
+        FunctionNode floor = new FunctionNode(head.prev, head.next);
+        floor = floor.next;
         for (int i = 0; i < sumFloors; ++i) {
-            int sumOfficesOnFloor = floor.off.getNumberOffices();
+            int sumOfficesOnFloor = floor.off.getNumberSpaces();
             num = k;
-            Office[] offices = floor.off.getOffices();
+            Office[] offices = floor.off.getSpaces();
             for (k = 0; k < sumOfficesOnFloor; ++k) {
                 Office office = offices[k];
                 int p = num + k;

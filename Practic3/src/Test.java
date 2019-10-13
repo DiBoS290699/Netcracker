@@ -13,20 +13,20 @@ public class Test {
         OfficeFloor dw2 = new OfficeFloor(3);
         System.out.print("ToString dw1: " + dw1);
         System.out.print("ToString dw2: " + dw2);
-        dw2.setOfficeOnFloor(0, new Office(31.4, 3));
-        dw2.setOfficeOnFloor(1, new Office(25.4, 1));
-        dw2.setOfficeOnFloor(2, new Office(49,3));
+        dw2.setSpaceOnFloor(0, new Office(31.4, 3));
+        dw2.setSpaceOnFloor(1, new Office(25.4, 1));
+        dw2.setSpaceOnFloor(2, new Office(49,3));
         System.out.print("ToString dw2: " + dw2);
         OfficeFloor[] dwMas = {dw1, dw2};
         OfficeBuilding d1 = new OfficeBuilding(dwMas);
         System.out.print("ToString Dwelling:\n" + d1);
-        System.out.println("getSumAreaOffices dw1: " + dw1.getSumAreaOffices() +
-                " getSumAreaOffices dw2: " + dw2.getSumAreaOffices());
-        System.out.println("getSumRoomsOffices dw1: " + dw1.getSumRoomsOffices() +
-                " getSumRoomsOffices dw2: " + dw2.getSumRoomsOffices());
-        dw1.addOfficeOnFloor(2, new Office(61,4));
+        System.out.println("getSumArea dw1: " + dw1.getSumArea() +
+                " getSumArea dw2: " + dw2.getSumArea());
+        System.out.println("getSumRooms dw1: " + dw1.getSumRooms() +
+                " getSumRooms dw2: " + dw2.getSumRooms());
+        dw1.addSpaceOnFloor(2, new Office(61,4));
         System.out.print(dw1);
-        dw2.deleteOfficeOnFloor(1);
+        dw2.deleteSpaceOnFloor(1);
         System.out.print(dw2);
         System.out.println("getBestSpace dw1: " + dw1.getBestSpace() +
                 " getBestSpace dw2: " + dw2.getBestSpace());
